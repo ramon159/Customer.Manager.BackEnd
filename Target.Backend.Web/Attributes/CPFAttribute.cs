@@ -8,9 +8,6 @@ namespace Target.Backend.Web.Attributes
     /// </summary>
     public class CPFAttribute : ValidationAttribute
     {
-        public CPFAttribute() { }
-        public string GetErrorMessage() =>
-        $"CPF inválido .";
         public override bool IsValid(object value)
         {
             if (value == null || string.IsNullOrEmpty(value.ToString()))
