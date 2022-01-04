@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Target.Backend.Web.Attributes;
 
 namespace Target.Backend.Web.DTO
 {
@@ -14,7 +15,7 @@ namespace Target.Backend.Web.DTO
         public DateTime DataNascimento { get; set; }
 
         [Required(ErrorMessage = "Este campo é obrigatório")]
-        // adicionar validação customizada
+        [CPF(ErrorMessage = "CPF inválido")]
         public string CPF { get; set; }
 
         [Required(ErrorMessage = "Este campo é obrigatório")]
