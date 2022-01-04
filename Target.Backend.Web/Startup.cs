@@ -38,6 +38,25 @@ namespace Target.Backend.Web
                     Title = "Target Api",
                     Description = "Target Api",
                 });
+
+                c.AddSecurityDefinition("X-API-Key", new OpenApiSecurityScheme
+                {
+                    Description = "Api key necessária para acessar as rotas. X-Api-Key: SecretKey",
+                    In = ParameterLocation.Header,
+                    Name = "X-API-Key",
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { new OpenApiSecurityScheme
+                        {
+                            Name = "X-API-Key",
+                            Type = SecuritySchemeType.ApiKey,
+                            In = ParameterLocation.Header,
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "X-API-Key" }
+                        }, new string[] {}}
+                });
             });
         }
 
@@ -52,6 +71,7 @@ namespace Target.Backend.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
