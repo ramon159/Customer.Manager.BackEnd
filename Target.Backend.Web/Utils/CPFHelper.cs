@@ -13,7 +13,7 @@
         }
 
         /// <summary>
-        /// Valida se um cpf é válido
+        /// Verifica se um CPF é válido
         /// </summary>
         public static bool ValidaCPF(string cpf)
         {
