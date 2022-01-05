@@ -1,16 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using Target.Backend.Web.Models;
 
-namespace Target.Example.Web.Repositories
+namespace Target.Backend.Web.Data
 {
     public class ApplicationContext : DbContext
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) 
         {
         }
-        public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<ClienteEndereco> Enderecos { get; set; }
-        public DbSet<Plano> Planos { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<ClienteEndereco> ClienteEndereco { get; set; }
+        public DbSet<Plano> Plano { get; set; }
+        
     }
 }

@@ -12,7 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Target.Example.Web.Repositories;
+using Target.Backend.Web.Interfaces.Repositories;
+using Target.Backend.Web.Repositories;
+using Target.Backend.Web.Data;
+using Target.Backend.Web.Interfaces.Transaction;
+using Target.Backend.Web.Transaction;
 
 namespace Target.Backend.Web
 {
@@ -27,8 +31,12 @@ namespace Target.Backend.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson(c =>
+                c.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<ApplicationContext, ApplicationContext>();
+            services.AddTransient<IClienteRepository, ClienteRepository>();
+            services.AddTransient<IClienteEnderecoRepository, ClienteEnderecoRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
