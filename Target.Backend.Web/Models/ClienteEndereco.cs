@@ -15,6 +15,7 @@ namespace Target.Backend.Web.Models
         public string Complemento { get; set; }
         public string UF { get; set; }
         public string CEP { get; set; }
+        public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
         public int ClienteId { get; set; }
         public virtual Cliente Cliente { get; set; }
     }
