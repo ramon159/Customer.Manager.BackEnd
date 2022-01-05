@@ -16,6 +16,7 @@ namespace Target.Backend.Web.DTO
 
         [Required(ErrorMessage = "Este campo é obrigatório")]
         [CPF(ErrorMessage = "CPF inválido")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "Este campo deve conter exatamente {1} caracteres, sem pontuação")]
         public string CPF { get; set; }
 
         [Required(ErrorMessage = "Este campo é obrigatório")]
