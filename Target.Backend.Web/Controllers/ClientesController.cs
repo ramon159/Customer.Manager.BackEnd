@@ -56,7 +56,7 @@ namespace Target.Backend.Web.Controllers
         }       
         // GET: api/v1/clientes/5/endereco
         [HttpGet("{id}/endereco")]
-        public async Task<ActionResult<Cliente>> GetEndereco(int id)
+        public async Task<ActionResult<ClienteEnderecoDTO>> GetEndereco(int id)
         {
             var cliente = await _clienteRepository.GetClienteByID(id);
 
@@ -64,8 +64,9 @@ namespace Target.Backend.Web.Controllers
             {
                 return NotFound();
             }
+            ClienteEnderecoDTO endereco = _mapper.Map<ClienteEnderecoDTO>(cliente.Endereco);
 
-            return cliente;
+            return endereco;
         }
 
         // POST: api/v1/clientes
