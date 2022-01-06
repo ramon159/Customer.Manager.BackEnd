@@ -38,6 +38,7 @@ namespace Target.Backend.Web
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<IClienteEnderecoRepository, ClienteEnderecoRepository>();
+            services.AddTransient<IPlanoRepository, PlanoRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
