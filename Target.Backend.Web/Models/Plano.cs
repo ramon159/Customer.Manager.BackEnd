@@ -14,6 +14,5 @@ namespace Target.Backend.Web.Models
         public decimal Preco { get; set; }
         public string Descricao { get; set; }
         public DateTime CriadoEm { get; set; } 
-        public ICollection<Cliente> Clientes { get; set; }
     }
 }

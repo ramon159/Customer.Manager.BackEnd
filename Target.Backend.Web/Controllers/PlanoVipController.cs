@@ -8,7 +8,7 @@ using Target.Backend.Web.Models;
 
 namespace Target.Backend.Web.Controllers
 {
-    [Route("api/v1/PlanoVip")]
+    [Route("api/v1/planovip")]
     [ApiController]
     [Produces("application/json")]
     //[ApiKey]
@@ -21,7 +21,10 @@ namespace Target.Backend.Web.Controllers
             _mapper = mapper;
             _planoRepository = planoRepository;
         }
-
+        /// <summary>
+        /// GET: api/v1/planovip
+        /// </summary>
+        /// <returns>detalhes do plano vip</returns>
         [HttpGet]
         public async Task<ActionResult<PlanoDTO>> GetPlanoVip()
         {
@@ -29,5 +32,16 @@ namespace Target.Backend.Web.Controllers
             PlanoDTO planoDTO = _mapper.Map<PlanoDTO>(planoVip);
             return Ok(planoDTO);
         }
+        /// <summary>
+        /// GET: api/v1/planovip/indice
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("indice")]
+        public async Task<ActionResult<PlanoDTO>> GetIndiceAdesaoGeralPlanoVip()
+        {
+            int indice = await _planoRepository.GetIndiceAdesaoPlano();
+            return Ok(indice);
+        }
+
     }
 }

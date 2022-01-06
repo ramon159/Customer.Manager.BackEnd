@@ -9,7 +9,6 @@ namespace Target.Backend.Web.Mappings
         public PlanoProfiler()
         {
             CreateMap<PlanoDTO, Plano>()
-                .ForMember(dest => dest.Clientes, opt => opt.Ignore())
                 .ReverseMap();
         }
     }
