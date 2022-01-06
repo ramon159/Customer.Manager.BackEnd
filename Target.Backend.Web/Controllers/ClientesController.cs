@@ -79,7 +79,7 @@ namespace Target.Backend.Web.Controllers
             Cliente cliente = _mapper.Map<Cliente>(clienteDTO);
 
 
-            ClienteEndereco clienteEndereco = _mapper.Map<ClienteEndereco>(clienteDTO);
+            ClienteEndereco clienteEndereco = _mapper.Map<ClienteEndereco>(clienteDTO.Endereco);
             clienteEndereco.Cliente = cliente;
 
             _clienteRepository.InsertCliente(cliente);
