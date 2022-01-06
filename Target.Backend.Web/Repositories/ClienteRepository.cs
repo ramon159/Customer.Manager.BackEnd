@@ -58,6 +58,12 @@ namespace Target.Backend.Web.Repositories
             _context.Cliente.Add(cliente);
         }
 
+        public async void UpdatePlanoCliente(Cliente cliente)
+        {
+            //string tituloPlano = "Plano VIP";
+            Plano plano = await _context.Plano.FirstOrDefaultAsync(p => p.Id == 1);
+            cliente.Plano = plano;
+        }
     }
 
 }

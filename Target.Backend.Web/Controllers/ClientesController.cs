@@ -40,14 +40,14 @@ namespace Target.Backend.Web.Controllers
         {
             return Ok(await _clienteRepository.GetClientes(sortOrder));
         }
-        // GET: api/v1/clientes/rendamensal/6000.0
+        // GET: api/v1/clientes/rendamensal/{rendaMensal}
         [HttpGet("rendamensal/{rendaMensal}")]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientesByRenda(decimal rendaMensal)
         {
             return Ok(await _clienteRepository.GetClientesByRenda(rendaMensal));
         }
 
-        // GET: api/v1/clientes/5
+        // GET: api/v1/clientes/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Cliente>> GetCliente(int id)
         {
@@ -60,7 +60,7 @@ namespace Target.Backend.Web.Controllers
 
             return cliente;
         }       
-        // GET: api/v1/clientes/5/endereco
+        // GET: api/v1/clientes/{id}/endereco
         [HttpGet("{id}/endereco")]
         public async Task<ActionResult<ClienteEnderecoDTO>> GetEndereco(int id)
         {
@@ -92,11 +92,26 @@ namespace Target.Backend.Web.Controllers
             _clienteRepository.InsertCliente(cliente);
             _clienteEnderecoRepository.InsertClienteEndereco(clienteEndereco);
 
-            int transactionConfirmation = await _uow.Commit();
+            int commit = await _uow.Commit();
+            bool transactionConfirmation = Convert.ToBoolean(commit);
 
             bool planoVip = cliente.RendaMensal >= 6000 ? true : false;
-            var retorno =  new { Cadastro = Convert.ToBoolean(transactionConfirmation), OferecerPlanoVip = planoVip };
+            var retorno =  new { Cadastro = transactionConfirmation, OferecerPlanoVip = planoVip };
             return Created("PostCliente", retorno);
+        }
+
+        // POST: api/v1/clientes/{id}/confirmarplanovip
+        [HttpPost("{id}/confirmarplanovip")]
+        public async Task<ActionResult<bool>> PostClienteVip(int id)
+        {
+            Cliente cliente = await _clienteRepository.GetClienteByID(id);
+            if (cliente == null) return NotFound("Cliente não encontrado");
+            if (cliente.RendaMensal <= 6000) return BadRequest("Cliente não possui renda superior a 6000 reais");
+
+            _clienteRepository.UpdatePlanoCliente(cliente);
+            int commit = await _uow.Commit();
+            bool transactionConfirmation = Convert.ToBoolean(commit);
+            return Ok(transactionConfirmation);
         }
     }
 }

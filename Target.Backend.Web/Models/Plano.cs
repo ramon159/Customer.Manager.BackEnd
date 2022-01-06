@@ -13,7 +13,7 @@ namespace Target.Backend.Web.Models
         public string Titulo { get; set; }
         public decimal Preco { get; set; }
         public string Descricao { get; set; }
-        public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
+        public DateTime CriadoEm { get; set; } 
         public ICollection<Cliente> Clientes { get; set; }
     }
 }
