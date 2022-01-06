@@ -17,6 +17,7 @@ using Target.Backend.Web.Repositories;
 using Target.Backend.Web.Data;
 using Target.Backend.Web.Interfaces.Transaction;
 using Target.Backend.Web.Transaction;
+using AutoMapper;
 
 namespace Target.Backend.Web
 {
@@ -31,6 +32,7 @@ namespace Target.Backend.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers().AddNewtonsoftJson(c =>
                 c.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -86,7 +88,7 @@ namespace Target.Backend.Web
             {
                 endpoints.MapControllers();
             });
-                        app.UseSwagger();
+            app.UseSwagger();
 
             app.UseSwaggerUI(options =>
             {

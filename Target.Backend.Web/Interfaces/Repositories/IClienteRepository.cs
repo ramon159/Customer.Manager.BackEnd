@@ -10,7 +10,7 @@ namespace Target.Backend.Web.Interfaces.Repositories
         ///  Obtem uma lista de clientes
         /// </summary>  
         /// <returns>Uma lista de clientes</returns>
-        public Task<IEnumerable<Cliente>> GetClientes();
+        public Task<IEnumerable<Cliente>> GetClientes(string sortOrder);
         /// <summary>
         ///  Obtem um cliente com base no id
         /// </summary>

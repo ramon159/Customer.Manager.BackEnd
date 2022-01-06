@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,7 @@ namespace Target.Backend.Web.Models
         public string CEP { get; set; }
         public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
         public int ClienteId { get; set; }
+        [JsonIgnore]
         public virtual Cliente Cliente { get; set; }
     }
 }

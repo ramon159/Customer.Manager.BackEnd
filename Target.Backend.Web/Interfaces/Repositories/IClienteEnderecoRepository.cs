@@ -10,5 +10,10 @@ namespace Target.Backend.Web.Interfaces.Repositories
         /// </summary>
         /// <param name="ClienteEndereco">endereço do cliente</param>
         public void InsertClienteEndereco(ClienteEndereco ClienteEndereco);
+        /// <summary>
+        /// Obtem o endereço pelo id do cliente
+        /// </summary>
+        /// <param name="id">id do cliente</param>
+        public Task<ClienteEndereco> GetClienteEnderecoById(int id);
     }
 }

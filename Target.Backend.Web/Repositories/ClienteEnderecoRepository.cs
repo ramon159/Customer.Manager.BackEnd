@@ -2,6 +2,7 @@
 using Target.Backend.Web.Interfaces.Repositories;
 using Target.Backend.Web.Models;
 using Target.Backend.Web.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Target.Backend.Web.Repositories
 {
@@ -13,6 +14,13 @@ namespace Target.Backend.Web.Repositories
         {
             _context = context;
         }
+
+        public async Task<ClienteEndereco> GetClienteEnderecoById(int id)
+        {
+            ClienteEndereco endereco = await _context.ClienteEndereco.FirstOrDefaultAsync(e => e.ClienteId == id);
+            return endereco;
+        }
+
         public void InsertClienteEndereco(ClienteEndereco ClienteEndereco)
         {
             _context.ClienteEndereco.Add(ClienteEndereco);
