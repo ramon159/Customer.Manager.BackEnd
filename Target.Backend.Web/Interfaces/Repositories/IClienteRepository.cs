@@ -11,6 +11,7 @@ namespace Target.Backend.Web.Interfaces.Repositories
         /// </summary>  
         /// <returns>Uma lista de clientes</returns>
         public Task<IEnumerable<Cliente>> GetClientes(string sortOrder);
+        public Task<IEnumerable<Cliente>> GetClientesByRenda(decimal renda);
         /// <summary>
         ///  Obtem um cliente com base no id
         /// </summary>

@@ -40,6 +40,12 @@ namespace Target.Backend.Web.Controllers
         {
             return Ok(await _clienteRepository.GetClientes(sortOrder));
         }
+        // GET: api/v1/clientes/rendamensal/6000.0
+        [HttpGet("rendamensal/{rendaMensal}")]
+        public async Task<ActionResult<IEnumerable<Cliente>>> GetClientesByRenda(decimal rendaMensal)
+        {
+            return Ok(await _clienteRepository.GetClientesByRenda(rendaMensal));
+        }
 
         // GET: api/v1/clientes/5
         [HttpGet("{id}")]

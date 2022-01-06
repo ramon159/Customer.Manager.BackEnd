@@ -42,6 +42,17 @@ namespace Target.Backend.Web.Repositories
 
             return result;
         }
+
+        public async Task<IEnumerable<Cliente>> GetClientesByRenda(decimal renda)
+        {
+            return await _context.Cliente
+                .Where(c => c.RendaMensal >= renda)
+                .Include(c => c.Endereco)
+                .Include(c => c.Plano)
+                .OrderByDescending(c => c.RendaMensal)
+                .ToListAsync();
+        }
+
         public void InsertCliente(Cliente cliente)
         {
             _context.Cliente.Add(cliente);
