@@ -39,6 +39,7 @@ namespace Target.Backend.Web
             services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<IClienteEnderecoRepository, ClienteEnderecoRepository>();
             services.AddTransient<IPlanoRepository, PlanoRepository>();
+            services.AddTransient<IEstadoRepository, EstadoRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
             services.AddSwaggerGen(c =>

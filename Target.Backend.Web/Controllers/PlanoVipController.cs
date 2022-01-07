@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Target.Backend.Web.Attributes;
 using Target.Backend.Web.DTO;
 using Target.Backend.Web.Interfaces.Repositories;
 using Target.Backend.Web.Models;
@@ -11,7 +12,7 @@ namespace Target.Backend.Web.Controllers
     [Route("api/v1/planovip")]
     [ApiController]
     [Produces("application/json")]
-    //[ApiKey]
+    [ApiKey]
     public class PlanoVipController : ControllerBase
     {
         private IMapper _mapper;
@@ -35,7 +36,7 @@ namespace Target.Backend.Web.Controllers
         /// <summary>
         /// GET: api/v1/planovip/indice
         /// </summary>
-        /// <returns></returns>
+        /// <returns>indice de adesão do plano vip</returns>
         [HttpGet("indice")]
         public async Task<ActionResult<PlanoDTO>> GetIndiceAdesaoGeralPlanoVip()
         {

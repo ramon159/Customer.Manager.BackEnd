@@ -19,7 +19,7 @@ namespace Target.Backend.Web.Controllers
     [ApiController]
     [Route("api/v1/clientes")]
     [Produces("application/json")]
-    //[ApiKey]
+    [ApiKey]
     public class ClientesController : ControllerBase
     {
         private IClienteRepository _clienteRepository;
@@ -34,21 +34,31 @@ namespace Target.Backend.Web.Controllers
             _uow = uow;
             _mapper = mapper;
         }
-
-        // GET: api/v1/clientes?sortOrder=fim
+        /// <summary>
+        /// GET: api/v1/clientes?sortOrder={inicio/fim}
+        /// </summary>
+        /// <returns>Lista de clientes</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes([FromQuery] string sortOrder)
         {
             return Ok(await _clienteRepository.GetClientes(sortOrder));
         }
-        // GET: api/v1/clientes/rendamensal/{rendaMensal}
+        /// <summary>
+        /// GET: api/v1/clientes/rendamensal/{rendaMensal}
+        /// </summary>
+        /// <param name="rendaMensal">renda mensal do cliente</param>
+        /// <returns>Lista de clientes com renda mensal superior a informada no parametro</returns>
         [HttpGet("rendamensal/{rendaMensal}")]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientesByRenda(decimal rendaMensal)
         {
             return Ok(await _clienteRepository.GetClientesByRenda(rendaMensal));
         }
 
-        // GET: api/v1/clientes/{id}
+        /// <summary>
+        /// GET: api/v1/clientes/{id}
+        /// </summary>
+        /// <param name="id">id do cliente</param>
+        /// <returns>um cliente pelo id informado</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<Cliente>> GetCliente(int id)
         {
@@ -62,7 +72,11 @@ namespace Target.Backend.Web.Controllers
             return cliente;
         }
 
-        // GET: api/v1/clientes/{id}/endereco
+        /// <summary>
+        /// GET: api/v1/clientes/{id}/endereco
+        /// </summary>
+        /// <param name="id">id do cliente</param>
+        /// <returns>endereço do cliente pelo id informado</returns>
         [HttpGet("{id}/endereco")]
         public async Task<ActionResult<ClienteEnderecoDTO>> GetEndereco(int id)
         {
@@ -77,7 +91,13 @@ namespace Target.Backend.Web.Controllers
 
             return enderecoDTO;
         }
-        // PUT: api/v1/clientes/{id}/endereco
+
+        /// <summary>
+        /// PUT: api/v1/clientes/{id}/endereco
+        /// </summary>
+        /// <param name="id">id do cliente a ser atualizado</param>
+        /// <param name="enderecoAtualizadoDTO">objeto com os campos a serem atualizados</param>
+        /// <returns>codigo http 204</returns>
         [HttpPut("{id}/endereco")]
         public async Task<ActionResult<ClienteEndereco>> PutEndereco(int id, ClienteEnderecoDTO enderecoAtualizadoDTO)
         {
@@ -114,7 +134,11 @@ namespace Target.Backend.Web.Controllers
             return NoContent();
         }
 
-        // POST: api/v1/clientes
+        /// <summary>
+        /// POST: api/v1/clientes
+        /// </summary>
+        /// <param name="clienteDTO">objeto com dados do cliente a ser inserido</param>
+        /// <returns>objeto com a confirmação do cadastro e com oferecimento do plano vip</returns>
         [HttpPost]
         public async Task<ActionResult> PostCliente(ClienteDTO clienteDTO)
         {
@@ -146,7 +170,11 @@ namespace Target.Backend.Web.Controllers
             return Created("PostCliente", retorno);
         }
 
-        // POST: api/v1/clientes/{id}/confirmarplanovip
+        /// <summary>
+        /// POST: api/v1/clientes/{id}/confirmarplanovip
+        /// </summary>
+        /// <param name="id">id do cliente</param>
+        /// <returns>confirmação de atualização para o plano vip</returns>
         [HttpPost("{id}/confirmarplanovip")]
         public async Task<ActionResult<bool>> PostClienteVip(int id)
         {
