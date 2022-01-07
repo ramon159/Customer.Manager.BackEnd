@@ -13,6 +13,7 @@ using Target.Backend.Web.DTO;
 using Target.Backend.Web.Interfaces.Transaction;
 using AutoMapper;
 using System.ComponentModel.DataAnnotations;
+using Target.Backend.Web.Interfaces.Services;
 
 namespace Target.Backend.Web.Controllers
 {
@@ -22,17 +23,19 @@ namespace Target.Backend.Web.Controllers
     [ApiKey]
     public class ClientesController : ControllerBase
     {
-        private IClienteRepository _clienteRepository;
-        private IClienteEnderecoRepository _clienteEnderecoRepository;
-        private IUnitOfWork _uow;
-        private IMapper _mapper;
+        private readonly IClienteRepository _clienteRepository;
+        private readonly IClienteEnderecoRepository _clienteEnderecoRepository;
+        private readonly IUnitOfWork _uow;
+        private readonly IMapper _mapper;
+        private readonly ILoggerManager _logger;
 
-        public ClientesController(IClienteRepository clienteRepository, IClienteEnderecoRepository clienteEnderecoRepository, IUnitOfWork uow, IMapper mapper)
+        public ClientesController(IClienteRepository clienteRepository, IClienteEnderecoRepository clienteEnderecoRepository, IUnitOfWork uow, IMapper mapper, ILoggerManager logger)
         {
             _clienteRepository = clienteRepository;
             _clienteEnderecoRepository = clienteEnderecoRepository;
             _uow = uow;
             _mapper = mapper;
+            _logger = logger;
         }
         /// <summary>
         /// GET: api/v1/clientes?sortOrder={inicio/fim}
@@ -41,7 +44,11 @@ namespace Target.Backend.Web.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes([FromQuery] string sortOrder)
         {
-            return Ok(await _clienteRepository.GetClientes(sortOrder));
+            _logger.LogInfo("Buscando todos os clientes do banco de dados");
+            IEnumerable<Cliente> clientes = await _clienteRepository.GetClientes(sortOrder);
+            _logger.LogInfo("Busca finalizada");
+            return Ok(clientes);
+
         }
         /// <summary>
         /// GET: api/v1/clientes/rendamensal/{rendaMensal}
@@ -51,7 +58,10 @@ namespace Target.Backend.Web.Controllers
         [HttpGet("rendamensal/{rendaMensal}")]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientesByRenda(decimal rendaMensal)
         {
-            return Ok(await _clienteRepository.GetClientesByRenda(rendaMensal));
+            _logger.LogInfo($"Buscando todos os clientes com renda mensal superior a {rendaMensal} no banco de dados");
+            IEnumerable <Cliente> clientes = await _clienteRepository.GetClientesByRenda(rendaMensal);
+            _logger.LogInfo("Busca finalizada");
+            return Ok(clientes);
         }
 
         /// <summary>
@@ -62,7 +72,9 @@ namespace Target.Backend.Web.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Cliente>> GetCliente(int id)
         {
+            _logger.LogInfo($"Buscando cliente com id {id} no banco de dados");
             var cliente = await _clienteRepository.GetClienteByID(id);
+            _logger.LogInfo("Busca finalizada");
 
             if (cliente == null)
             {
@@ -80,7 +92,9 @@ namespace Target.Backend.Web.Controllers
         [HttpGet("{id}/endereco")]
         public async Task<ActionResult<ClienteEnderecoDTO>> GetEndereco(int id)
         {
+            _logger.LogInfo($"Buscando endereço do cliente com id {id} no banco de dados");
             var endereco = await _clienteEnderecoRepository.GetClienteEnderecoById(id);
+            _logger.LogInfo("Busca finalizada");
 
             if (endereco == null)
             {
@@ -101,11 +115,13 @@ namespace Target.Backend.Web.Controllers
         [HttpPut("{id}/endereco")]
         public async Task<ActionResult<ClienteEndereco>> PutEndereco(int id, ClienteEnderecoDTO enderecoAtualizadoDTO)
         {
+            _logger.LogInfo($"Atualizando cliente com id {id} no banco de dados");
 
             ClienteEndereco endereco = await _clienteEnderecoRepository.GetClienteEnderecoById(id);
             if (endereco == null)
             {
-                return NotFound();
+                _logger.LogInfo($"Cliente com id {id} não encontrado");
+                return NotFound("Cliente não encontrado");
             }
 
             if (enderecoAtualizadoDTO.Logradouro != null) endereco.Logradouro = enderecoAtualizadoDTO.Logradouro;
@@ -126,9 +142,11 @@ namespace Target.Backend.Web.Controllers
             try
             {
                 await _uow.Commit();
+                _logger.LogInfo($"Atualização do cliente finalizada");
             }
             catch (DbUpdateConcurrencyException)
             {
+                _logger.LogInfo($"Erro ao atualizar endereço do cliente");
                 return BadRequest("Erro ao atualizar endereço no banco de dados");
             }
             return NoContent();
@@ -142,7 +160,6 @@ namespace Target.Backend.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> PostCliente(ClienteDTO clienteDTO)
         {
-
 
             Cliente cliente = _mapper.Map<Cliente>(clienteDTO);
 
@@ -159,10 +176,13 @@ namespace Target.Backend.Web.Controllers
                 return BadRequest(validationResults);
             }
 
+            _logger.LogInfo($"Inserindo Cliente no banco de dados");
             _clienteRepository.InsertCliente(cliente);
+            _logger.LogInfo($"Inserindo Endereço do Cliente no banco de dados");
             _clienteEnderecoRepository.InsertClienteEndereco(clienteEndereco);
 
             int commit = await _uow.Commit();
+            _logger.LogInfo($"Cliente e endereço inseridos com sucesso");
             bool transactionConfirmation = Convert.ToBoolean(commit);
 
             bool planoVip = cliente.RendaMensal >= 6000 ? true : false;
@@ -178,12 +198,14 @@ namespace Target.Backend.Web.Controllers
         [HttpPost("{id}/confirmarplanovip")]
         public async Task<ActionResult<bool>> PostClienteVip(int id)
         {
+            _logger.LogInfo($"Atualizando plano de cliente com id {id}");
             Cliente cliente = await _clienteRepository.GetClienteByID(id);
             if (cliente == null) return NotFound("Cliente não encontrado");
             if (cliente.RendaMensal <= 6000) return BadRequest("Cliente não possui renda superior a 6000 reais");
 
             _clienteRepository.UpdatePlanoCliente(cliente);
             int commit = await _uow.Commit();
+            _logger.LogInfo("Plano atualizado com sucesso");
             bool transactionConfirmation = Convert.ToBoolean(commit);
             return Ok(transactionConfirmation);
         }

@@ -17,26 +17,14 @@ namespace Target.Backend.Web.Repositories
         }
         public async Task<Plano> GetPlanoByID(int id)
         {
-            try
-            {
-                return await _context.Plano.FirstOrDefaultAsync(p => p.Id == id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
+            return await _context.Plano.FirstOrDefaultAsync(p => p.Id == id);
+
         }
         public async Task<int> GetIndiceAdesaoPlano()
         {
-            try
-            {
-                int indice = await _context.Cliente.CountAsync(c => c.PlanoId == null && c.RendaMensal >= 6000);
-                return indice;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            int indice = await _context.Cliente.CountAsync(c => c.PlanoId == null && c.RendaMensal >= 6000);
+            return indice;
         }
     }
 }

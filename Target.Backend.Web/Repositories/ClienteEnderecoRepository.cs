@@ -18,15 +18,7 @@ namespace Target.Backend.Web.Repositories
 
         public async Task<ClienteEndereco> GetClienteEnderecoById(int id)
         {
-            try
-            {
-            ClienteEndereco endereco = await _context.ClienteEndereco.FirstOrDefaultAsync(e => e.ClienteId == id);
-            return endereco;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return await _context.ClienteEndereco.FirstOrDefaultAsync(e => e.ClienteId == id);
         }
 
         public void InsertClienteEndereco(ClienteEndereco ClienteEndereco)
