@@ -3,9 +3,11 @@ API ASP.NET Core 3.1
 ___
 ## 🚀 Começando
 
-Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
-
-Consulte **Implantação** para saber como implantar o projeto.
+clone o repositório
+```
+git clone https://github.com/ramon159/Target.BackEnd.git
+```
+e após a pasta do projeto instale todas as dependências
 
 ### 📋 Pré-requisitos
 
