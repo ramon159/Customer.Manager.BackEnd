@@ -14,8 +14,6 @@ namespace Target.Backend.Web.Attributes
     public class ApiKeyAttribute : Attribute, IAsyncActionFilter
     {
         private const string ApiKeyHeaderName = "X-API-Key";
-
-
         public async Task OnActionExecutionAsync(
            ActionExecutingContext context,
            ActionExecutionDelegate next)
