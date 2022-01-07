@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptsSQL", "ScriptsSQL", 
 		..\..\..\Desktop\Target_DB.sql = ..\..\..\Desktop\Target_DB.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Target.Backend.Tests.Integration", "Target.Backend.Tests.Integration\Target.Backend.Tests.Integration.csproj", "{5A2E561C-AE7B-4DCB-B8CB-8361D77D0C88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{48AAABF1-B9F2-4E45-BAD1-4224D31341FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48AAABF1-B9F2-4E45-BAD1-4224D31341FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48AAABF1-B9F2-4E45-BAD1-4224D31341FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A2E561C-AE7B-4DCB-B8CB-8361D77D0C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A2E561C-AE7B-4DCB-B8CB-8361D77D0C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A2E561C-AE7B-4DCB-B8CB-8361D77D0C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A2E561C-AE7B-4DCB-B8CB-8361D77D0C88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
