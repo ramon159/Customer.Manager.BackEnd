@@ -7,6 +7,7 @@ using Target.Backend.Web.Models;
 using Target.Backend.Web.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Target.Backend.Web.Repositories
 {
@@ -22,37 +23,59 @@ namespace Target.Backend.Web.Repositories
 
         public async Task<Cliente> GetClienteByID(int id)
         {
-            return await _context.Cliente
-                .Include(c => c.Endereco)
-                .Include(c => c.Plano)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            try
+            {
+                return await _context.Cliente
+                    .Include(c => c.Endereco)
+                    .Include(c => c.Plano)
+                    .FirstOrDefaultAsync(c => c.Id == id);
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<Cliente>> GetClientes(string sortOrder)
         {
-            var result = sortOrder == "fim" ?
-                 await _context.Cliente
-                .Include(c => c.Endereco)
-                .Include(c => c.Plano)
-                .OrderByDescending(c => c.CriadoEm)
-                .ToListAsync() : 
-                await _context.Cliente
-                .Include(c => c.Endereco)
-                .Include(c => c.Plano)
-                .OrderBy(c => c.CriadoEm)
-                .ToListAsync();
+            try
+            {
+                var result = sortOrder == "fim" ?
+                     await _context.Cliente
+                    .Include(c => c.Endereco)
+                    .Include(c => c.Plano)
+                    .OrderByDescending(c => c.CriadoEm)
+                    .ToListAsync() : 
+                    await _context.Cliente
+                    .Include(c => c.Endereco)
+                    .Include(c => c.Plano)
+                    .OrderBy(c => c.CriadoEm)
+                    .ToListAsync();
 
-            return result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<Cliente>> GetClientesByRenda(decimal renda)
         {
-            return await _context.Cliente
+            try
+            {
+                return await _context.Cliente
                 .Where(c => c.RendaMensal >= renda)
                 .Include(c => c.Endereco)
                 .Include(c => c.Plano)
                 .OrderByDescending(c => c.RendaMensal)
                 .ToListAsync();
+            } 
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void InsertCliente(Cliente cliente)
@@ -62,8 +85,16 @@ namespace Target.Backend.Web.Repositories
 
         public async void UpdatePlanoCliente(Cliente cliente)
         {
-            Plano plano = await _planoRepository.GetPlanoByID(1);
-            cliente.Plano = plano;
+            try
+            {
+                Plano plano = await _planoRepository.GetPlanoByID(1);
+                cliente.Plano = plano;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 
