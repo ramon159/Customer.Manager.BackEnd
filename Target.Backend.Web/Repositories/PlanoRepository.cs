@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Target.Backend.Web.Data;
@@ -16,12 +17,26 @@ namespace Target.Backend.Web.Repositories
         }
         public async Task<Plano> GetPlanoByID(int id)
         {
-            return await _context.Plano.FirstOrDefaultAsync(p => p.Id == id);
+            try
+            {
+                return await _context.Plano.FirstOrDefaultAsync(p => p.Id == id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         public async Task<int> GetIndiceAdesaoPlano()
         {
-            int indice = await _context.Cliente.CountAsync(c => c.PlanoId == null && c.RendaMensal >= 6000);
-            return indice;
+            try
+            {
+                int indice = await _context.Cliente.CountAsync(c => c.PlanoId == null && c.RendaMensal >= 6000);
+                return indice;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

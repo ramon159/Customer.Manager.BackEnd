@@ -20,16 +20,30 @@ namespace Target.Backend.Web.Repositories
 
         public async Task<object> GetCidadesByUFAsync(string UF)
         {
-            HttpResponseMessage response = await cliente.GetAsync($"/api/v1/localidades/estados/{UF}/distritos");
-            string jsonString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<object>(jsonString);
+            try
+            {
+                HttpResponseMessage response = await cliente.GetAsync($"/api/v1/localidades/estados/{UF}/distritos");
+                string jsonString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<object>(jsonString);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<object> GetEstadosAsync()
         {
-            HttpResponseMessage response = await cliente.GetAsync("/api/v1/localidades/estados");
-            string jsonString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<object>(jsonString);
+            try
+            {
+                HttpResponseMessage response = await cliente.GetAsync("/api/v1/localidades/estados");
+                string jsonString = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<object>(jsonString);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
