@@ -1,0 +1,6 @@
+ordem:
+Target_db
+Plano
+Cliente
+ClienteEndereco
+insertPlanoVip
