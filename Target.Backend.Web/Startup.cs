@@ -18,6 +18,11 @@ using Target.Backend.Web.Data;
 using Target.Backend.Web.Interfaces.Transaction;
 using Target.Backend.Web.Transaction;
 using AutoMapper;
+using NLog;
+using System.IO;
+using Target.Backend.Web.Interfaces.Services;
+using Target.Backend.Web.Services;
+using Target.Backend.Web.Extensions;
 
 namespace Target.Backend.Web
 {
@@ -25,6 +30,7 @@ namespace Target.Backend.Web
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -32,6 +38,7 @@ namespace Target.Backend.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ILoggerManager, LoggerManager>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers().AddNewtonsoftJson(c =>
                 c.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -72,13 +79,13 @@ namespace Target.Backend.Web
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.ConfigureExceptionHandler(logger);
             app.UseHttpsRedirection();
 
             app.UseRouting();

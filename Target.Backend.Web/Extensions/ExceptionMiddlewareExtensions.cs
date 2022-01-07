@@ -1,0 +1,35 @@
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
+using System.Net;
+using Target.Backend.Web.Interfaces.Services;
+using Target.Backend.Web.Models;
+
+namespace Target.Backend.Web.Extensions
+{
+    public static class ExceptionMiddlewareExtensions
+    {
+        public static void ConfigureExceptionHandler(this IApplicationBuilder app, ILoggerManager logger)
+        {
+            app.UseExceptionHandler(appError =>
+            {
+                appError.Run(async context =>
+                {
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    context.Response.ContentType = "application/json";
+                    var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                    if(contextFeature != null)
+                    {
+                        logger.LogError($"Algo deu errado: {contextFeature.Error}");
+
+                        await context.Response.WriteAsync(new ErrorDetails
+                        {
+                            StatusCode = context.Response.StatusCode,
+                            Message = "Erro no lado do servidor"
+                        }.ToString()); 
+                    }
+                });
+            });
+        }
+    }
+}

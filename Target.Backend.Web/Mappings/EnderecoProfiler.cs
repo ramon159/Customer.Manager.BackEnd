@@ -8,12 +8,8 @@ namespace Target.Backend.Web.Mappings
     {
         public EnderecoProfiler()
         {
-            AllowNullDestinationValues = false;
-            
             CreateMap<ClienteEnderecoDTO, ClienteEndereco>()
                 .ReverseMap();
         }
-
     }
-
 }
