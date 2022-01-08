@@ -57,7 +57,7 @@ namespace Target.Backend.Tests.Integration.Repositories
         }
 
         [Fact]
-        public async void InsertClienteEndereco_StateUnderTest_ExpectedBehavior()
+        public async void InsertClienteEndereco_Endereco_EnderecoMustPersist()
         {
             // Arrange
             Cliente cliente = new Cliente()
