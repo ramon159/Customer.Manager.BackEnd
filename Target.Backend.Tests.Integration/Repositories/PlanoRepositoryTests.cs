@@ -18,7 +18,8 @@ namespace Target.Backend.Tests.Integration.Repositories
         public PlanoRepositoryTests()
         {
             DbContextOptionsBuilder<ApplicationContext> optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>()
-                .UseInMemoryDatabase(new Guid().ToString());
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()); // todos os testes usarão um db diferente
+
             _context = new ApplicationContext(optionsBuilder.Options);
             _planoRepository = new PlanoRepository(_context);
             _clienteRepository = new ClienteRepository(_context, _planoRepository);
@@ -64,7 +65,7 @@ namespace Target.Backend.Tests.Integration.Repositories
 
             _context.Plano.Add(plano);
 
-            for(int i = 0;i < 10; i++)
+            for(int i = 1;i <= 10; i++)
             {
                 Cliente cliente = new Cliente() 
                 {
@@ -82,7 +83,7 @@ namespace Target.Backend.Tests.Integration.Repositories
             var result = await _planoRepository.GetIndiceAdesaoPlano();
 
             // Assert
-            Assert.Equal(10 ,result);
+            Assert.Equal(10, result);
         }
     }
 }
