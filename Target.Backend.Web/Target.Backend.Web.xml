@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Target.Backend.Web</name>
+    </assembly>
+    <members>
+        <member name="T:Target.Backend.Web.Attributes.ApiKeyAttribute">
+            <summary>
+            Atributo de autenticação via Api Key
+            </summary>
+        </member>
+        <member name="T:Target.Backend.Web.Attributes.CEPAttribute">
+            <summary>
+            Validação customizada para CEP
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Target.Backend.Web.Attributes.CPFAttribute" -->
+        <member name="T:Target.Backend.Web.Attributes.UFAttribute">
+            <summary>
+            Validação customizada para Unidades Federais
+            </summary>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.ClientesController.GetClientes(System.String)">
+            <summary>
+            GET: api/v1/clientes?sortOrder={inicio/fim}
+            </summary>
+            <returns>Lista de clientes</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.ClientesController.GetClientesByRenda(System.Decimal)">
+            <summary>
+            GET: api/v1/clientes/rendamensal/{rendaMensal}
+            </summary>
+            <param name="rendaMensal">renda mensal do cliente</param>
+            <returns>Lista de clientes com renda mensal superior a informada no parametro</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.ClientesController.GetCliente(System.Int32)">
+            <summary>
+            GET: api/v1/clientes/{id}
+            </summary>
+            <param name="id">id do cliente</param>
+            <returns>um cliente pelo id informado</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.ClientesController.GetEndereco(System.Int32)">
+            <summary>
+            GET: api/v1/clientes/{id}/endereco
+            </summary>
+            <param name="id">id do cliente</param>
+            <returns>endereço do cliente pelo id informado</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.ClientesController.PutEndereco(System.Int32,Target.Backend.Web.DTO.ClienteEnderecoDTO)">
+            <summary>
+            PUT: api/v1/clientes/{id}/endereco
+            </summary>
+            <param name="id">id do cliente a ser atualizado</param>
+            <param name="enderecoAtualizadoDTO">objeto com os campos a serem atualizados</param>
+            <returns>codigo http 204</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.ClientesController.PostCliente(Target.Backend.Web.DTO.ClienteDTO)">
+            <summary>
+            POST: api/v1/clientes
+            </summary>
+            <param name="clienteDTO">objeto com dados do cliente a ser inserido</param>
+            <returns>objeto com a confirmação do cadastro e com oferecimento do plano vip</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.ClientesController.PostClienteVip(System.Int32)">
+            <summary>
+            POST: api/v1/clientes/{id}/confirmarplanovip
+            </summary>
+            <param name="id">id do cliente</param>
+            <returns>confirmação de atualização para o plano vip</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.EstadosController.GetEstados">
+            <summary>
+            GET: api/v1/estados
+            </summary>
+            <returns>todos os estados brasileiros</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.EstadosController.GetCidadesByUF(System.String)">
+            <summary>
+            GET: api/v1/{UF}/cidades
+            </summary>
+            <returns>cidades pela UF informada</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.PlanoVipController.GetPlanoVip">
+            <summary>
+            GET: api/v1/planovip
+            </summary>
+            <returns>detalhes do plano vip</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Controllers.PlanoVipController.GetIndiceAdesaoGeralPlanoVip">
+            <summary>
+            GET: api/v1/planovip/indice
+            </summary>
+            <returns>indice de adesão do plano vip</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IClienteEnderecoRepository.InsertClienteEndereco(Target.Backend.Web.Models.ClienteEndereco)">
+            <summary>
+            Insere o endereço do cliente
+            </summary>
+            <param name="ClienteEndereco">endereço do cliente</param>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IClienteEnderecoRepository.GetClienteEnderecoById(System.Int32)">
+            <summary>
+            Obtem o endereço pelo id do cliente
+            </summary>
+            <param name="id">id do cliente</param>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IClienteRepository.GetClientes(System.String)">
+            <summary>
+             Obtem uma lista de clientes
+            </summary>  
+            <returns>Uma lista de clientes</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IClienteRepository.GetClientesByRenda(System.Decimal)">
+            <summary>
+            Obtem uma lista de clientes com base na renda mensal
+            </summary>
+            <param name="renda">renda mensal</param>
+            <returns>lista de clientes com renda mensal maior ou igual a informada no parametro</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IClienteRepository.GetClienteByID(System.Int32)">
+            <summary>
+             Obtem um cliente com base no id
+            </summary>
+            <param name="id">id do cliente</param>
+            <returns>um objeto Cliente</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IClienteRepository.InsertCliente(Target.Backend.Web.Models.Cliente)">
+            <summary>
+            Insere um cliente
+            </summary>
+            <param name="cliente"></param>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IClienteRepository.UpdatePlanoCliente(Target.Backend.Web.Models.Cliente)">
+            <summary>
+            Atualiza o plano do cliente
+            </summary>
+            <param name="id">id do cliente</param>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IEstadoRepository.GetEstadosAsync">
+            <summary>
+            Método que obtem estados brasileiros
+            </summary>
+            <returns>objeto com estados brasileiro</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IEstadoRepository.GetCidadesByUFAsync(System.String)">
+            <summary>
+            Método que obtem cidades pela UF informada
+            </summary>
+            <param name="UF">sigla da unidade federal</param>
+            <returns>objeto com as cidades da UF informada</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IPlanoRepository.GetPlanoByID(System.Int32)">
+            <summary>
+            Obtem plano pelo id
+            </summary>
+            <param name="id">id do plano</param>
+            <returns>objeto do tipo Plano</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Interfaces.Repositories.IPlanoRepository.GetIndiceAdesaoPlano">
+            <summary>
+            Obtem um indice geral de adesão do plano
+            </summary>
+            <returns>indice com o total de clientes que podem assinar o plano vip</returns>
+        </member>
+        <member name="M:Target.Backend.Web.Utils.CEPHelper.ValidaCep(System.String)">
+            <summary>
+            Verifica se um CEP é válido
+            </summary>
+        </member>
+        <member name="M:Target.Backend.Web.Utils.CPFHelper.RemoveNaoNumericos(System.String)">
+            <summary>
+            Remove caracteres não numéricos
+            </summary>
+        </member>
+        <member name="M:Target.Backend.Web.Utils.CPFHelper.ValidaCPF(System.String)">
+            <summary>
+            Verifica se um CPF é válido
+            </summary>
+        </member>
+        <member name="F:Target.Backend.Web.Utils.UFHelper.UFs">
+            <summary>
+            Lista com todas as Unidades Federais
+            </summary>
+        </member>
+        <member name="M:Target.Backend.Web.Utils.UFHelper.ValidaUF(System.String)">
+            <summary>
+            Verifica se a UF é válida
+            </summary>
+        </member>
+    </members>
+</doc>
