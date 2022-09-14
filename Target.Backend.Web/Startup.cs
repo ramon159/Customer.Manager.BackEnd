@@ -58,6 +58,9 @@ namespace Target.Backend.Web
                     Description = "Target Api",
                 });
 
+                var filePath = Path.Combine(AppContext.BaseDirectory, "Target.Backend.Web.xml");
+                c.IncludeXmlComments(filePath);
+
                 c.AddSecurityDefinition("X-API-Key", new OpenApiSecurityScheme
                 {
                     Description = "Api key necessária para acessar as rotas. X-Api-Key: SecretKey",
